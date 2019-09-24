@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Геоинформационные системы (ГИС), часть 1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Тимофей Самсонов" />
+    <meta name="date" content="2019-09-24" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
+    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Геоинформационные системы (ГИС), часть 1
+## Управление проектами пространственного развития
+### Тимофей Самсонов
+### 2019-09-24
+
+---
+
+
+
+# День 1
+
+1. Источники пространственных данных: картографическая "основа"
+
+1. Тематические карты: визуализация данных
+
+1. Соединение пространственных данных и статистики
+
+1. Картографические сервисы
+
+---
+class: center, middle, inverse
+# Источники данных
+
+---
+
+## Базовые картографические данные
+
+### Natural Earth — cверхмелкомасштабные (страны, Россия)
+
+.pull-left[
+&lt;img src="img/ne.png" width="100%" /&gt;
+]
+
+.pull-right[
+- Масштабы 10, 50 и 110 млн
+
+- Подходят для создания карт стран и макрорегионов
+
+- Аккуратные и точные данные для своей детализации
+
+- Локализация на множестве языков
+]
+
+[https://www.naturalearthdata.com/](https://www.naturalearthdata.com/)
+
+---
+
+## Базовые картографические данные
+
+### Natural Earth — cверхмелкомасштабные (страны, Россия)
+
+&lt;img src="img/natearth.png" width="60%" /&gt;
+
+---
+
+## Базовые картографические данные
+
+### ВСЕГЕИ — Мелкомасштабные (Россия, крупные регионы)
+
+.pull-left[
+&lt;img src="img/vsegei.png" width="80%" /&gt;
+]
+
+.pull-right[
+- Масштабы 2.5, 5, 10, 15 млн
+
+- Подходят для создания карт крупных регионов и макрорегионов России
+
+- Не включают территории соседних государств
+
+- Актуальность следует проверить
+]
+
+[https://vsegei.ru/ru/info/topo/](https://vsegei.ru/ru/info/topo/)
+
+---
+
+## Базовые картографические данные
+
+### ВСЕГЕИ — Мелкомасштабные (Россия, крупные регионы)
+
+&lt;img src="img/vsegei25.png" width="70%" /&gt;
+---
+
+## Базовые картографические данные
+
+### ВСЕГЕИ — Мелкомасштабные (Россия, крупные регионы)
+
+&lt;img src="img/vsegei25_det.png" width="70%" /&gt;
+
+---
+
+## Базовые картографические данные
+
+### ? — Среднемасштабные
+
+- .red[Готовых источников пространственных данных __открытого доступа__ для решения задач _регионального уровня_ нет].
+
+- Карты масштабов 1:100 000 и 1:200 000, подходящие для решения таких задач, можно запросить в ЦКГФ — центральном картографо-геодезическом фонде (подчиняется ЦГКиИПД Росреестра).
+
+- В качестве альтернативы можно поручить профессиональному картографу выполнить __генерализацию__ данных OpenStreetMap
+
+---
+
+## Базовые картографические данные
+
+### Dataplus — Среднемасштабные (коммерческие)
+
+.pull-left[
+&lt;img src="img/dataplus.png" width="80%" /&gt;
+]
+
+.pull-right[
+- Масштабы 100, 500, 1000k
+
+- Подойдут для задач регионального уровня
+
+- Масштабы 500 и 1000 легко поддерживаются актуальными
+]
+
+[https://www.dataplus.ru/products/map_and_services_date/detail/review/](https://www.dataplus.ru/products/map_and_services_date/detail/review/)
+
+---
+
+## Базовые картографические данные
+
+### OpenStreetMap — крупномасштабные (муниципалитеты)
+
+.pull-left[
+&lt;img src="img/hotosm.png" width="90%" /&gt;
+]
+
+.pull-right[
+- На урбанизированные территории детализация соответствует топографическим планам городов 
+
+- Подойдут для задач муниципального уровня
+
+- Постоянное обновление, доступ к данным
+]
+
+[https://www.openstreetmap.org/](https://www.openstreetmap.org/)
+[https://export.hotosm.org/en/v3/](https://export.hotosm.org/en/v3/)
+
+---
+
+## OpenStreetMap
+
+<div id="htmlwidget-79fabbbb7048aa6673fb" style="width:1000px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-79fabbbb7048aa6673fb">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[55.0074,82.9102],13,[]]},"evals":[],"jsHooks":[]}</script>
+
+---
+class: center, middle, inverse
+# Тематические карты
+
+---
+
+## Графические переменные
+
+&lt;img src="img/var_length.png" width="60%" /&gt;
+
+.small[Sauvage-Thomase, C., Biri, N., Perrouin, G., Genon, N., Heymans, P., 2017. Feature-Based Elicitation of Cognitively Efficient Visualizations for SPL Configurations, in: Sottet, J.-S., García Frey, A., Vanderdonckt, J. (Eds.), Human Centered Software Product Lines. Springer International Publishing, Cham, pp. 107–129. https://doi.org/10.1007/978-3-319-60947-8_4]
+
+---
+
+## Графические переменные
+
+&lt;img src="img/var_dimensions.png" width="85%" /&gt;
+
+.small[Krassanakis, Vassilios &amp; Mitropoulos, Vasilis &amp; Nakos, Byron. (2013). A cartographic approach of the process of map symbolization on gvSIG software.]
+
+---
+
+## Шкалы измерения показателей
+
+.left-column[
+- Номинальная
+
+- Порядковая
+
+- Интервальная
+
+- Абсолютная (отношений)
+]
+.right-column[
+&lt;img src="img/scales.jpg" width="70%" /&gt;
+]
+
+[http://gis.web.tstu.ru/metodic/gis/terminpon/glava2_3.html](http://gis.web.tstu.ru/metodic/gis/terminpon/glava2_3.html)
+
+---
+class: center, middle
+# Визуализация данных
+
+## .red[Переменные данных] `\(\rightarrow\)` .blue[Графические переменные]
+
+---
+
+## Цвет
+
+&lt;img src="img/brewer.png" width="65%" /&gt;
+
+[http://colorbrewer2.org/](http://colorbrewer2.org/)
+
+---
+
+## Качественные (номинальные) показатели
+
+Отношение порядка не установлено
+
+&lt;img src="img/qualitative.png" width="50%" /&gt;
+
+Используются цвета одинаковой светлоты и насыщенности, но разного тона.
+
+- Тип землепользования, национальный язык, политико-административная принадлежность
+
+---
+
+## Количественные показатели
+
+.pull-left[
+### Униполярные
+
+Без нейтрального значения
+
+&lt;img src="img/unipolar.png" width="100%" /&gt;
+_Последовательные_ цветовые шкалы
+
+- Кол-во авто на душу населения, объем капитального строительства
+
+]
+
+.pull-right[
+### Биполярные
+
+С нейтральным значением
+
+&lt;img src="img/bipolar.png" width="87%" /&gt;
+_Расходящиеся_ цветовые шкалы
+
+- Сальдо миграций, естественный прирост, изменение ВВП
+
+]
+
+---
+
+## Размер
+
+&lt;img src="img/size_scales.jpg" width="60%" /&gt;
+
+.small[Берлянт А.М., 2014. Картография, 4-е изд. КДУ, Москва.]
+
+---
+class: center, middle, inverse
+# Присоединение тематических данных
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
